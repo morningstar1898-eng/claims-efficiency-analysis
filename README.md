@@ -102,25 +102,25 @@ tableau/dashboard_spec.md
 
 Claims efficiency analysis is directly relevant to revenue cycle management, billing operations, payer relations, reimbursement analytics, and revenue integrity. This project shows the ability to connect transactional claim data to operational decisions that can reduce rework, accelerate payment, and improve financial visibility.
 
-## Executive Summary Placeholder
+## Visualizations
 
-`[Add final executive summary after analysis is completed: 3-5 bullets covering key findings, business interpretation, and recommended actions.]`
+### KPI Dashboard
 
-## Screenshots Placeholder
+![Claims Efficiency KPI Dashboard](visuals/kpi_dashboard.png)
 
-Store final dashboard screenshots in:
+### Processing Turnaround Time by Service Line
 
-```text
-project-03-claims-efficiency-analysis/screenshots/
-```
+![Turnaround Time by Service Line](visuals/turnaround_time_by_service_line.png)
 
-Recommended files:
+### Denial Rates by Reason Category
 
-- `claims_efficiency_dashboard_overview.png`
-- `denial_trends_by_payer.png`
-- `claims_aging_operational_view.png`
+![Denial Rates by Reason](visuals/denial_rates_by_reason.png)
 
-## Architecture Diagram Placeholder
+### Monthly Claims Volume Trends
+
+![Monthly Claims Volume Trends](visuals/monthly_claims_volume.png)
+
+## Architecture
 
 ```text
 Raw Claims Data -> SQL Staging Tables -> KPI Views -> Python Validation -> Tableau Dashboard Extracts -> Executive Dashboard
