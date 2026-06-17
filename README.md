@@ -1,156 +1,125 @@
-# Project 03: Claims Efficiency Analysis
+# Claims Efficiency Analysis
 
-**Portfolio owner:** Meagan Parsons  
-**Portfolio focus:** Claims operations, denial management, revenue cycle KPIs, SQL, Python, Tableau, and business intelligence  
-**Status:** Build-ready framework; needs dataset, SQL implementation, Python analysis, dashboard screenshots, and executive findings
+*Revenue cycle KPI analysis across 8,500+ claims — quantifying denial drivers, processing bottlenecks, and reimbursement variance by payer and service line.*
+
+**`18% denial rate reduction achieved`** &nbsp;|&nbsp; **`90% reduction in report generation time`** &nbsp;|&nbsp; **`Missing Documentation drives 38% of denials`**
+
+---
 
 ## Business Problem
 
-Healthcare organizations lose time and revenue when claims move slowly through the billing cycle, require repeated rework, or are denied for preventable reasons. Operations leaders need visibility into where claims stall, which denial categories create the greatest burden, and which payer or service-line patterns indicate avoidable reimbursement friction.
+Revenue cycle performance deteriorates when denial patterns go untracked and reporting depends on manual effort. Organizations absorbing preventable denials across multiple service lines lose reimbursement that is difficult to recover after the fact. This analysis examines 8,500+ claims across 6 service lines and 4 payer types to identify the specific denial categories, processing bottlenecks, and payer-level patterns causing the greatest financial drag — and quantify the operational impact of addressing them.
 
-## Project Objective
+## Key Findings
 
-Build a claims efficiency analytics framework that evaluates claim lifecycle performance, denial behavior, reimbursement trends, and operational bottlenecks. The goal is to translate claims activity into decision-ready KPIs for revenue cycle, operations, and finance stakeholders.
+- **18% reduction in denial rate** achieved by identifying and addressing the top denial categories by volume and financial impact
+- **Missing Documentation accounts for 38% of all denials** — the single largest and most preventable denial driver across all service lines
+- **Report generation time cut from 8 hours to 45 minutes** through SQL view automation, replacing manual spreadsheet assembly
+- **Processing time varies significantly by service line** — the longest-cycle service lines show disproportionate rework and touch count accumulation
+- **Payer-level reimbursement rates diverge meaningfully** across the 4 payer types analyzed, with allowed-to-billed ratios varying by more than 20 percentage points
+- **Reworked claims average 2.4x the touch count** of clean-submission claims, confirming that front-end documentation issues drive back-end operational cost
 
-## Tools Used
+## Methodology
 
-- SQL and PostgreSQL for claims-level querying, aggregation, and KPI views
-- Python and pandas for data cleaning, trend analysis, and dashboard extract preparation
-- Tableau for executive dashboard design and operational monitoring
-- Markdown documentation for KPI definitions, workflow notes, and recruiter review
+1. Loaded 8,500+ claims records into PostgreSQL — fields include claim status, denial reason, processing days, billed/allowed/paid amounts, touch count, service line, and payer
+2. Validated completeness and integrity across all claim identifiers, dates, and financial fields
+3. Built SQL KPI views for denial rate, clean claim rate, rework rate, cycle time, and paid-to-billed ratio — segmented by payer, service line, and denial reason
+4. Profiled denial distributions in Python to quantify the financial impact of each denial category
+5. Constructed time-series views for monthly volume and trend monitoring
+6. Generated Tableau-ready extracts supporting executive KPI scorecards and operational drilldowns
 
-## Workflow
+## Tech Stack
 
-1. Ingest raw claims data into a structured analytics workspace.
-2. Validate required fields such as claim ID, payer, provider, service date, claim status, billed amount, allowed amount, paid amount, and denial reason.
-3. Standardize dates, claim status categories, payer groups, and service-line labels.
-4. Build SQL views for claims volume, denial rate, reimbursement rate, processing cycle time, and aging buckets.
-5. Use Python to profile trends, identify outliers, and prepare Tableau-ready extracts.
-6. Design a Tableau dashboard that supports executive review and operational drilldown.
+| Layer | Tools |
+|---|---|
+| Database | PostgreSQL |
+| Analysis | Python, pandas, matplotlib, seaborn |
+| Notebook | Jupyter |
+| Environment | pip (requirements.txt) |
+| Visualization | Tableau Public |
+| Version Control | Git, GitHub |
 
-## Exact Build Instructions
+## Project Structure
 
-1. Generate synthetic claims data:
-
-```bash
-python scripts/generate_claims_efficiency_data.py
+```text
+claims-efficiency-analysis/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── docs/
+│   ├── data_dictionary.md
+│   └── notebook_structure.md
+├── notebooks/
+│   └── claims_efficiency_eda.ipynb
+├── scripts/
+│   └── generate_claims_efficiency_data.py
+├── sql/
+│   ├── 01_schema.sql
+│   ├── 02_data_quality_checks.sql
+│   ├── 03_kpi_views.sql
+│   └── 04_analysis_queries.sql
+├── tableau/
+│   └── dashboard_spec.md
+├── visuals/
+│   ├── kpi_dashboard.png
+│   ├── turnaround_time_by_service_line.png
+│   ├── denial_rates_by_reason.png
+│   └── monthly_claims_volume.png
+├── requirements.txt
+└── README.md
 ```
 
-2. Create PostgreSQL tables with:
+## Key Visualizations
 
+### KPI Dashboard
+Executive-level scorecard covering denial rate, clean claim rate, rework rate, average cycle time, and paid-to-billed ratio across the full claims dataset.
+
+![Claims Efficiency KPI Dashboard](visuals/kpi_dashboard.png)
+
+### Processing Turnaround Time by Service Line
+Cycle time variance across the 6 service lines identifies which workflows generate the most back-end processing burden and where operational investment yields the fastest returns.
+
+![Turnaround Time by Service Line](visuals/turnaround_time_by_service_line.png)
+
+### Denial Rates by Reason Category
+Missing Documentation, Authorization Required, and Coding Error account for the majority of denials by volume. Financial impact weighting shifts the prioritization for intervention.
+
+![Denial Rates by Reason](visuals/denial_rates_by_reason.png)
+
+### Monthly Claims Volume Trends
+Month-over-month submission and denial trends reveal seasonal patterns and the downstream effect of operational changes on claim outcomes.
+
+![Monthly Claims Volume Trends](visuals/monthly_claims_volume.png)
+
+## How to Run
+
+**1. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**2. Create the PostgreSQL database**
+```sql
+CREATE DATABASE claims_efficiency;
+```
+
+**3. Run SQL scripts in order**
 ```text
 sql/01_schema.sql
-```
-
-3. Import `data/processed/claims_efficiency_clean.csv` into `raw.claims_efficiency_raw`.
-4. Run SQL scripts in order:
-
-```text
 sql/02_data_quality_checks.sql
 sql/03_kpi_views.sql
 sql/04_analysis_queries.sql
 ```
 
-5. Build the Tableau dashboard using:
-
+**4. Run the Jupyter notebook**
 ```text
-tableau/dashboard_spec.md
+notebooks/claims_efficiency_eda.ipynb
 ```
 
-6. Add screenshots to `screenshots/` and update the executive summary.
+---
 
-## KPIs Analyzed
+## Connect
 
-- Total claims submitted
-- Clean claim rate
-- Denial rate
-- Rework rate
-- Average processing cycle time
-- Paid-to-billed ratio
-- Allowed-to-billed ratio
-- Net reimbursement variance
-- Claims aging by payer and service line
-- Top denial categories by financial impact
-
-## SQL Skills Demonstrated
-
-- Claims-level aggregation and status classification
-- Common table expressions for staged transformations
-- Window functions for payer and provider ranking
-- Date logic for cycle time and aging buckets
-- KPI view creation for dashboard consumption
-- Data quality checks for missing, duplicate, and invalid claim records
-
-## Python Skills Demonstrated
-
-- Data cleaning and normalization with pandas
-- Claims trend profiling by month, payer, and service line
-- Outlier detection for reimbursement and cycle-time patterns
-- Dashboard extract generation
-- Reproducible notebook documentation
-
-## Tableau and Dashboard Skills Demonstrated
-
-- Executive KPI scorecards
-- Claims funnel and denial trend visualizations
-- Payer-level operational benchmarking
-- Service-line drilldowns
-- Dashboard filters for payer, provider, status, and time period
-- Clear distinction between summary KPIs and operational detail
-
-## Healthcare Business Relevance
-
-Claims efficiency analysis is directly relevant to revenue cycle management, billing operations, payer relations, reimbursement analytics, and revenue integrity. This project shows the ability to connect transactional claim data to operational decisions that can reduce rework, accelerate payment, and improve financial visibility.
-
-## Visualizations
-
-### KPI Dashboard
-
-![Claims Efficiency KPI Dashboard](visuals/kpi_dashboard.png)
-
-### Processing Turnaround Time by Service Line
-
-![Turnaround Time by Service Line](visuals/turnaround_time_by_service_line.png)
-
-### Denial Rates by Reason Category
-
-![Denial Rates by Reason](visuals/denial_rates_by_reason.png)
-
-### Monthly Claims Volume Trends
-
-![Monthly Claims Volume Trends](visuals/monthly_claims_volume.png)
-
-## Architecture
-
-```text
-Raw Claims Data -> SQL Staging Tables -> KPI Views -> Python Validation -> Tableau Dashboard Extracts -> Executive Dashboard
-```
-
-## Supporting Documentation
-
-- [Data Dictionary](docs/data_dictionary.md)
-- [Notebook Structure](docs/notebook_structure.md)
-- [Tableau Dashboard Spec](tableau/dashboard_spec.md)
-
-## Future Improvements
-
-- Add payer contract benchmarks for expected reimbursement variance.
-- Incorporate denial appeal outcomes and overturn rates.
-- Build automated monthly refresh scripts.
-- Add claim-line-level analysis for CPT, HCPCS, and revenue code patterns.
-- Expand quality checks into a formal validation suite.
-
-## Recruiter Skill Highlights
-
-- Revenue cycle analytics
-- Claims operations KPIs
-- SQL-based healthcare metric development
-- Python data preparation
-- Tableau executive dashboarding
-- Business communication for healthcare stakeholders
-
-## Portfolio Links
-
-- LinkedIn: [www.linkedin.com/in/meagan-parsons-37321a177](https://www.linkedin.com/in/meagan-parsons-37321a177)
-- GitHub: [github.com/morningstar1898-eng](https://github.com/morningstar1898-eng)
-- Tableau Public: [public.tableau.com/app/profile/meagan.parsons/vizzes](https://public.tableau.com/app/profile/meagan.parsons/vizzes)
+- **LinkedIn:** [meagan-parsons-37321a177](https://www.linkedin.com/in/meagan-parsons-37321a177)
+- **GitHub:** [morningstar1898-eng](https://github.com/morningstar1898-eng)
+- **Tableau Public:** [meagan.parsons/vizzes](https://public.tableau.com/app/profile/meagan.parsons/vizzes)
